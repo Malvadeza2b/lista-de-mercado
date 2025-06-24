@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Compras - Supermercado</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" integrity="sha384-tViUnJ4POzJbVAAxSZ2FKB5wtZPC3VGlB3K9gPpU6pZ3Yb0rPWy2swlPQn5Vtb2y" crossorigin="anonymous">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e9ecef, #f8f9fa);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 900px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin: 2rem auto;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: #6c757d;
+            opacity: 0.7;
+        }
+        .category-title {
+            background-color: #f8f9fa;
+            border-left: 4px solid #0d6efd;
+            padding: 10px 15px;
+            margin-top: 1.5rem;
+            border-radius: 6px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        .list-group-item {
+            border: none;
+            border-bottom: 1px solid #dee2e6;
+            padding: 0.75rem 1rem;
+            background-color: transparent;
+            transition: background-color 0.2s ease;
+        }
+        .list-group-item:hover {
+            background-color: #f1f3f5;
+        }
+        .list-group:empty::after {
+            content: "Nenhum item adicionado.";
+            display: block;
+            color: #6c757d;
+            font-style: italic;
+            padding: 0.75rem 1rem;
+        }
+        .input-group {
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-radius: 8px;
+        }
+        .form-control, .form-select {
+            border: none;
+            border-radius: 8px 0 0 8px;
+            padding: 0.75rem;
+        }
+        .btn-primary {
+            border-radius: 0 8px 8px 0;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .btn-outline-danger {
+            border-radius: 6px;
+            padding: 0.25rem 0.5rem;
+        }
+        .btn-success, .btn-outline-secondary {
+            border-radius: 6px;
+            padding: 0.5rem 1.25rem;
+        }
+        .form-check-input:checked {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .input-group {
+                flex-direction: column;
+            }
+            .form-control, .form-select, .btn-primary {
+                border-radius: 8px !important;
+                margin-bottom: 0.5rem;
+                width: 100%;
+            }
+            .btn-primary {
+                padding: 0.75rem;
+            }
+            .category-title {
+                font-size: 1.1rem;
+            }
+            .list-group-item {
+                padding: 0.5rem 0.75rem;
+            }
+            h1 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-4">
+        <!-- Cabeçalho -->
+        <header class="text-center mb-4">
+            <h1 class="display-5 fw-bold">
+                <i class="bi bi-cart3 text-primary"></i> Lista de Compras
+            </h1>
+            <p class="text-muted">Organize suas compras do supermercado</p>
+        </header>
+
+        <!-- Formulário para adicionar itens -->
+        <div class="row mb-4">
+            <div class="col-md-8 mx-auto">
+                <div class="input-group">
+                    <input type="text" id="itemInput" class="form-control" placeholder="Ex: Arroz, Maçãs, Leite...">
+                    <select id="categorySelect" class="form-select">
+                        <option value="hortifruti">Hortifruti</option>
+                        <option value="mercearia">Mercearia</option>
+                        <option value="laticinios">Laticínios</option>
+                        <option value="carnes">Carnes</option>
+                        <option value="bebidas">Bebidas</option>
+                        <option value="limpeza">Limpeza</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                    <button id="addButton" class="btn btn-primary">
+                        <i class="bi bi-plus-lg"></i> Adicionar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Compras (Organizada por Categorias) -->
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Hortifruti -->
+                <div class="category-title">
+                    <i class="bi bi-apple me-2"></i> Hortifruti
+                </div>
+                <ul id="hortifruti-list" class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <input type="checkbox" class="form-check-input me-2">
+                            Maçãs - 1kg
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger remove-btn">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <input type="checkbox" class="form-check-input me-2">
+                            Banana - 1 dúzia
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger remove-btn">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Bebidas -->
+                <div class="category-title">
+                    <i class="bi bi-cup-straw me-2"></i> Bebidas
+                </div>
+                <ul id="bebidas-list" class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <input type="checkbox" class="form-check-input me-2">
+                            Água Mineral - 6 garrafas
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger remove-btn">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Carnes -->
+                <div class="category-title">
+                    <i class="bi bi-egg me-2"></i> Carnes
+                </div>
+                <ul id="carnes-list" class="list-group mb-3"></ul>
+
+                <!-- Limpeza -->
+                <div class="category-title">
+                    <i class="bi bi-droplet me-2"></i> Limpeza
+                </div>
+                <ul id="limpeza-list" class="list-group mb-3"></ul>
+            </div>
+
+            <div class="col-md-6">
+                <!-- Mercearia -->
+                <div class="category-title">
+                    <i class="bi bi-basket me-2"></i> Mercearia
+                </div>
+                <ul id="mercearia-list" class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center completed">
+                        <div>
+                            <input type="checkbox" class="form-check-input me-2" checked>
+                            Arroz - 5kg
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger remove-btn">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <input type="checkbox" class="form-check-input me-2">
+                            Feijão - 1kg
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger remove-btn">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Laticínios -->
+                <div class="category-title">
+                    <i class="bi bi-egg-fried me-2"></i> Laticínios
+                </div>
+                <ul id="laticinios-list" class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <input type="checkbox" class="form-check-input me-2">
+                            Leite - 1L
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger remove-btn">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Outros -->
+                <div class="category-title">
+                    <i class="bi bi-box me-2"></i> Outros
+                </div>
+                <ul id="outros-list" class="list-group mb-3"></ul>
+            </div>
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="d-flex justify-content-center gap-2 mt-4">
+            <button class="btn btn-success">
+                <i class="bi bi-save"></i> Salvar Lista
+            </button>
+            <button class="btn btn-outline-secondary">
+                <i class="bi bi-printer"></i> Imprimir
+            </button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS + Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <!-- JavaScript para interatividade -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Adicionar novo item
+            document.getElementById('addButton').addEventListener('click', addItem);
+            document.getElementById('itemInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') addItem();
+            });
+
+            // Marcar/desmarcar itens como comprados
+            document.querySelectorAll('.form-check-input').forEach(checkbox => {
+                checkbox.addEventListener('change', toggleCompleted);
+            });
+
+            // Remover itens
+            document.querySelectorAll('.remove-btn').forEach(btn => {
+                btn.addEventListener('click', removeItem);
+            });
+        });
+
+        function addItem() {
+            const itemText = document.getElementById('itemInput').value.trim();
+            const category = document.getElementById('categorySelect').value;
+
+            if (itemText === '') return;
+
+            const list = document.getElementById(`${category}-list`);
+            const newItem = document.createElement('li');
+            newItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+            
+            newItem.innerHTML = `
+                <div>
+                    <input type="checkbox" class="form-check-input me-2">
+                    ${itemText}
+                </div>
+                <button class="btn btn-sm btn-outline-danger remove-btn">
+                    <i class="bi bi-trash"></i>
+                </button>
+            `;
+
+            list.appendChild(newItem);
+            document.getElementById('itemInput').value = '';
+
+            // Adiciona eventos ao novo item
+            newItem.querySelector('.form-check-input').addEventListener('change', toggleCompleted);
+            newItem.querySelector('.remove-btn').addEventListener('click', removeItem);
+        }
+
+        function toggleCompleted(e) {
+            const item = e.target.closest('.list-group-item');
+            if (e.target.checked) {
+                item.classList.add('completed');
+            } else {
+                item.classList.remove('completed');
+            }
+        }
+
+        function removeItem(e) {
+            e.target.closest('.list-group-item').remove();
+        }
+    </script>
+</body>
+</html>
