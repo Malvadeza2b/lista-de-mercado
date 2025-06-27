@@ -3,314 +3,569 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Compras - Supermercado</title>
+    <title>SuperLista - Lista de Compras Inteligente</title>
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" integrity="sha384-tViUnJ4POzJbVAAxSZ2FKB5wtZPC3VGlB3K9gPpU6pZ3Yb0rPWy2swlPQn5Vtb2y" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-        body {
-            background: linear-gradient(135deg, #e9ecef, #f8f9fa);
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --market-primary: #2e8b57;
+            --market-secondary: #ff8c00;
+            --market-light: #f8f9fa;
+            --market-dark: #343a40;
+            --market-bg: #f0fff0;
+            --market-card: #ffffff;
         }
-        .container {
-            max-width: 900px;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        
+        body {
+            background-color: var(--market-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1606787366850-de6330128bfc?q=80&w=1470&auto=format&fit=crop');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-blend-mode: overlay;
+            background-color: rgba(240, 255, 240, 0.9);
+            min-height: 100vh;
+        }
+        
+        .market-container {
+            max-width: 1200px;
+            background-color: var(--market-card);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             padding: 2rem;
             margin: 2rem auto;
+            border: 1px solid rgba(46, 139, 87, 0.2);
+            position: relative;
+            overflow: hidden;
         }
-        .completed {
-            text-decoration: line-through;
-            color: #6c757d;
-            opacity: 0.7;
+        
+        .market-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--market-primary), var(--market-secondary));
         }
+        
+        .market-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .market-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--market-primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .market-header p {
+            color: var(--market-dark);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .market-logo {
+            background-color: var(--market-primary);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
         .category-title {
-            background-color: #f8f9fa;
-            border-left: 4px solid #0d6efd;
-            padding: 10px 15px;
-            margin-top: 1.5rem;
-            border-radius: 6px;
+            background: linear-gradient(135deg, rgba(46, 139, 87, 0.1), rgba(255, 140, 0, 0.1));
+            border-left: 5px solid var(--market-primary);
+            padding: 12px 20px;
+            margin: 0;
+            border-radius: 12px 12px 0 0;
             font-size: 1.25rem;
             font-weight: 600;
             display: flex;
             align-items: center;
+            color: var(--market-dark);
         }
+        
         .list-group-item {
             border: none;
-            border-bottom: 1px solid #dee2e6;
-            padding: 0.75rem 1rem;
-            background-color: transparent;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1rem 1.25rem;
             transition: background-color 0.2s ease;
         }
+        
+        .list-group-item:last-child {
+            border-bottom: none;
+            border-radius: 0 0 12px 12px;
+        }
+        
         .list-group-item:hover {
-            background-color: #f1f3f5;
+            background-color: rgba(46, 139, 87, 0.05);
         }
-        .list-group:empty::after {
-            content: "Nenhum item adicionado.";
-            display: block;
+        
+        .completed {
+            text-decoration: line-through;
             color: #6c757d;
-            font-style: italic;
-            padding: 0.75rem 1rem;
+            opacity: 0.7;
+            background-color: rgba(108, 117, 125, 0.05);
         }
-        .input-group {
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            border-radius: 8px;
+        
+        .form-check-input:checked {
+            background-color: var(--market-primary);
+            border-color: var(--market-primary);
         }
+        
+        .market-input-group {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
         .form-control, .form-select {
             border: none;
-            border-radius: 8px 0 0 8px;
-            padding: 0.75rem;
+            padding: 0.9rem 1.25rem;
+            background-color: rgba(255, 255, 255, 0.9);
         }
-        .btn-primary {
-            border-radius: 0 8px 8px 0;
-            padding: 0.75rem 1.5rem;
+        
+        .form-control:focus, .form-select:focus {
+            box-shadow: 0 0 0 0.25rem rgba(46, 139, 87, 0.25);
+        }
+        
+        .btn-market-primary {
+            background-color: var(--market-primary);
+            border-color: var(--market-primary);
+            color: white;
+            padding: 0.9rem 1.5rem;
+            font-weight: 500;
             transition: all 0.3s ease;
         }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
+        
+        .btn-market-primary:hover {
+            background-color: #267849;
+            border-color: #267849;
+            transform: translateY(-2px);
         }
-        .btn-outline-danger {
-            border-radius: 6px;
-            padding: 0.25rem 0.5rem;
+        
+        .btn-market-secondary {
+            background-color: var(--market-secondary);
+            border-color: var(--market-secondary);
+            color: white;
         }
-        .btn-success, .btn-outline-secondary {
-            border-radius: 6px;
-            padding: 0.5rem 1.25rem;
+        
+        .btn-market-secondary:hover {
+            background-color: #e07d00;
+            border-color: #e07d00;
         }
-        .form-check-input:checked {
-            background-color: #28a745;
-            border-color: #28a745;
+        
+        .btn-outline-market {
+            border-color: var(--market-primary);
+            color: var(--market-primary);
         }
+        
+        .btn-outline-market:hover {
+            background-color: var(--market-primary);
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: rgba(108, 117, 125, 0.3);
+        }
+        
+        .badge-category {
+            background-color: rgba(46, 139, 87, 0.1);
+            color: var(--market-primary);
+            font-weight: 500;
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+        }
+        
+        .market-footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
         @media (max-width: 768px) {
-            .container {
+            .market-container {
                 padding: 1.5rem;
                 margin: 1rem;
+                border-radius: 10px;
             }
-            .input-group {
+            
+            .market-header h1 {
+                font-size: 2rem;
+            }
+            
+            .market-logo {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .category-title {
+                font-size: 1.1rem;
+                padding: 10px 15px;
+            }
+            
+            .list-group-item {
+                padding: 0.75rem 1rem;
+            }
+            
+            .market-input-group {
                 flex-direction: column;
             }
-            .form-control, .form-select, .btn-primary {
+            
+            .form-control, .form-select, .btn-market-primary {
                 border-radius: 8px !important;
                 margin-bottom: 0.5rem;
                 width: 100%;
             }
-            .btn-primary {
-                padding: 0.75rem;
+
+            .toast-container {
+                top: 10px;
+                right: 10px;
+                left: 10px;
             }
-            .category-title {
-                font-size: 1.1rem;
-            }
-            .list-group-item {
-                padding: 0.5rem 0.75rem;
-            }
-            h1 {
-                font-size: 1.75rem;
+
+            .action-buttons .btn {
+                flex: 1 0 auto;
+                min-width: 120px;
             }
         }
     </style>
 </head>
-<body class="bg-light">
-    <div class="container py-4">
+<body>
+    <div class="market-container">
         <!-- Cabeçalho -->
-        <header class="text-center mb-4">
-            <h1 class="display-5 fw-bold">
-                <i class="bi bi-cart3 text-primary"></i> Lista de Compras
+        <header class="market-header">
+            <h1>
+                <span class="market-logo"><i class="bi bi-cart3"></i></span>
+                SuperLista
             </h1>
-            <p class="text-muted">Organize suas compras do supermercado</p>
+            <p class="text-muted">Sua lista de compras inteligente para o supermercado</p>
         </header>
 
         <!-- Formulário para adicionar itens -->
-        <div class="row mb-4">
-            <div class="col-md-8 mx-auto">
-                <div class="input-group">
-                    <input type="text" id="itemInput" class="form-control" placeholder="Ex: Arroz, Maçãs, Leite...">
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-8">
+                <div class="market-input-group input-group">
+                    <input type="text" id="itemInput" class="form-control" placeholder="O que vamos comprar hoje? (ex: Maçãs, Arroz, Leite)" aria-label="Item para comprar">
                     <select id="categorySelect" class="form-select">
-                        <option value="hortifruti">Hortifruti</option>
-                        <option value="mercearia">Mercearia</option>
-                        <option value="laticinios">Laticínios</option>
-                        <option value="carnes">Carnes</option>
-                        <option value="bebidas">Bebidas</option>
-                        <option value="limpeza">Limpeza</option>
-                        <option value="outros">Outros</option>
+                        <option value="hortifruti"><i class="bi bi-apple"></i> Hortifruti</option>
+                        <option value="mercearia"><i class="bi bi-basket"></i> Mercearia</option>
+                        <option value="laticinios"><i class="bi bi-egg-fried"></i> Laticínios</option>
+                        <option value="carnes"><i class="bi bi-egg"></i> Carnes</option>
+                        <option value="bebidas"><i class="bi bi-cup-straw"></i> Bebidas</option>
+                        <option value="limpeza"><i class="bi bi-droplet"></i> Limpeza</option>
+                        <option value="padaria"><i class="bi bi-bread-slice"></i> Padaria</option>
+                        <option value="outros"><i class="bi bi-box"></i> Outros</option>
                     </select>
-                    <button id="addButton" class="btn btn-primary">
+                    <button id="addButton" class="btn btn-market-primary">
                         <i class="bi bi-plus-lg"></i> Adicionar
                     </button>
                 </div>
             </div>
         </div>
 
+        <!-- Botões de Ação Rápida -->
+        <div class="action-buttons">
+            <button id="completeAllButton" class="btn btn-success">
+                <i class="bi bi-check-all"></i> Completar Tudo
+            </button>
+            <button id="uncompleteAllButton" class="btn btn-outline-success">
+                <i class="bi bi-x-circle"></i> Desfazer Tudo
+            </button>
+            <button id="deleteAllButton" class="btn btn-danger">
+                <i class="bi bi-trash3"></i> Deletar Tudo
+            </button>
+        </div>
+
         <!-- Lista de Compras (Organizada por Categorias) -->
         <div class="row">
             <div class="col-md-6">
                 <!-- Hortifruti -->
-                <div class="category-title">
-                    <i class="bi bi-apple me-2"></i> Hortifruti
+                <div class="category-card">
+                    <h3 class="category-title">
+                        <i class="bi bi-apple me-2"></i> Hortifruti
+                        <span class="badge-category ms-auto">Frutas e Verduras</span>
+                    </h3>
+                    <ul id="hortifruti-list" class="list-group list-group-flush">
+                        <!-- Itens serão carregados dinamicamente -->
+                    </ul>
                 </div>
-                <ul id="hortifruti-list" class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <input type="checkbox" class="form-check-input me-2">
-                            Maçãs - 1kg
-                        </div>
-                        <button class="btn btn-sm btn-outline-danger remove-btn">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <input type="checkbox" class="form-check-input me-2">
-                            Banana - 1 dúzia
-                        </div>
-                        <button class="btn btn-sm btn-outline-danger remove-btn">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </li>
-                </ul>
 
                 <!-- Bebidas -->
-                <div class="category-title">
-                    <i class="bi bi-cup-straw me-2"></i> Bebidas
+                <div class="category-card">
+                    <h3 class="category-title">
+                        <i class="bi bi-cup-straw me-2"></i> Bebidas
+                        <span class="badge-category ms-auto">Refrigerantes e Sucos</span>
+                    </h3>
+                    <ul id="bebidas-list" class="list-group list-group-flush">
+                        <!-- Itens serão carregados dinamicamente -->
+                    </ul>
                 </div>
-                <ul id="bebidas-list" class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <input type="checkbox" class="form-check-input me-2">
-                            Água Mineral - 6 garrafas
-                        </div>
-                        <button class="btn btn-sm btn-outline-danger remove-btn">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </li>
-                </ul>
 
                 <!-- Carnes -->
-                <div class="category-title">
-                    <i class="bi bi-egg me-2"></i> Carnes
+                <div class="category-card">
+                    <h3 class="category-title">
+                        <i class="bi bi-egg me-2"></i> Carnes
+                        <span class="badge-category ms-auto">Proteínas</span>
+                    </h3>
+                    <ul id="carnes-list" class="list-group list-group-flush">
+                        <!-- Itens serão carregados dinamicamente -->
+                    </ul>
                 </div>
-                <ul id="carnes-list" class="list-group mb-3"></ul>
 
                 <!-- Limpeza -->
-                <div class="category-title">
-                    <i class="bi bi-droplet me-2"></i> Limpeza
+                <div class="category-card">
+                    <h3 class="category-title">
+                        <i class="bi bi-droplet me-2"></i> Limpeza
+                        <span class="badge-category ms-auto">Produtos</span>
+                    </h3>
+                    <ul id="limpeza-list" class="list-group list-group-flush">
+                        <!-- Itens serão carregados dinamicamente -->
+                    </ul>
                 </div>
-                <ul id="limpeza-list" class="list-group mb-3"></ul>
             </div>
 
             <div class="col-md-6">
                 <!-- Mercearia -->
-                <div class="category-title">
-                    <i class="bi bi-basket me-2"></i> Mercearia
+                <div class="category-card">
+                    <h3 class="category-title">
+                        <i class="bi bi-basket me-2"></i> Mercearia
+                        <span class="badge-category ms-auto">Alimentos Básicos</span>
+                    </h3>
+                    <ul id="mercearia-list" class="list-group list-group-flush">
+                        <!-- Itens serão carregados dinamicamente -->
+                    </ul>
                 </div>
-                <ul id="mercearia-list" class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between align-items-center completed">
-                        <div>
-                            <input type="checkbox" class="form-check-input me-2" checked>
-                            Arroz - 5kg
-                        </div>
-                        <button class="btn btn-sm btn-outline-danger remove-btn">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <input type="checkbox" class="form-check-input me-2">
-                            Feijão - 1kg
-                        </div>
-                        <button class="btn btn-sm btn-outline-danger remove-btn">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </li>
-                </ul>
 
                 <!-- Laticínios -->
-                <div class="category-title">
-                    <i class="bi bi-egg-fried me-2"></i> Laticínios
+                <div class="category-card">
+                    <h3 class="category-title">
+                        <i class="bi bi-egg-fried me-2"></i> Laticínios
+                        <span class="badge-category ms-auto">Leite e Derivados</span>
+                    </h3>
+                    <ul id="laticinios-list" class="list-group list-group-flush">
+                        <!-- Itens serão carregados dinamicamente -->
+                    </ul>
                 </div>
-                <ul id="laticinios-list" class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <input type="checkbox" class="form-check-input me-2">
-                            Leite - 1L
-                        </div>
-                        <button class="btn btn-sm btn-outline-danger remove-btn">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </li>
-                </ul>
+
+                <!-- Padaria -->
+                <div class="category-card">
+                    <h3 class="category-title">
+                        <i class="bi bi-bread-slice me-2"></i> Padaria
+                        <span class="badge-category ms-auto">Pães e Bolos</span>
+                    </h3>
+                    <ul id="padaria-list" class="list-group list-group-flush">
+                        <!-- Itens serão carregados dinamicamente -->
+                    </ul>
+                </div>
 
                 <!-- Outros -->
-                <div class="category-title">
-                    <i class="bi bi-box me-2"></i> Outros
+                <div class="category-card">
+                    <h3 class="category-title">
+                        <i class="bi bi-box me-2"></i> Outros
+                        <span class="badge-category ms-auto">Diversos</span>
+                    </h3>
+                    <ul id="outros-list" class="list-group list-group-flush">
+                        <!-- Itens serão carregados dinamicamente -->
+                    </ul>
                 </div>
-                <ul id="outros-list" class="list-group mb-3"></ul>
             </div>
         </div>
 
         <!-- Botões de Ação -->
-        <div class="d-flex justify-content-center gap-2 mt-4">
-            <button class="btn btn-success">
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <button id="saveButton" class="btn btn-market-primary">
                 <i class="bi bi-save"></i> Salvar Lista
             </button>
-            <button class="btn btn-outline-secondary">
+            <button id="clearButton" class="btn btn-outline-danger">
+                <i class="bi bi-trash"></i> Limpar Tudo
+            </button>
+            <button id="printButton" class="btn btn-market-secondary">
                 <i class="bi bi-printer"></i> Imprimir
             </button>
         </div>
+
+        <!-- Rodapé -->
+        <footer class="market-footer mt-4">
+            <p>SuperLista &copy; <span id="currentYear"></span> - Organize suas compras do supermercado</p>
+        </footer>
     </div>
 
-    <!-- Bootstrap JS + Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Toast de Notificação -->
+    <div class="toast-container">
+        <div id="toast" class="toast align-items-center text-white bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <span id="toastMessage">Lista salva com sucesso!</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- JavaScript para interatividade -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Inicializa o toast do Bootstrap
+            const toastEl = document.getElementById('toast');
+            const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+            
+            // Atualiza o ano no rodapé
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Carrega a lista salva
+            loadSavedList();
+            
             // Adicionar novo item
             document.getElementById('addButton').addEventListener('click', addItem);
             document.getElementById('itemInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') addItem();
             });
 
-            // Marcar/desmarcar itens como comprados
-            document.querySelectorAll('.form-check-input').forEach(checkbox => {
-                checkbox.addEventListener('change', toggleCompleted);
-            });
-
-            // Remover itens
-            document.querySelectorAll('.remove-btn').forEach(btn => {
-                btn.addEventListener('click', removeItem);
-            });
+            // Salvar lista
+            document.getElementById('saveButton').addEventListener('click', saveList);
+            
+            // Limpar lista
+            document.getElementById('clearButton').addEventListener('click', clearList);
+            
+            // Imprimir lista
+            document.getElementById('printButton').addEventListener('click', printList);
+            
+            // Completar todos os itens
+            document.getElementById('completeAllButton').addEventListener('click', completeAllItems);
+            
+            // Desfazer completar todos os itens
+            document.getElementById('uncompleteAllButton').addEventListener('click', uncompleteAllItems);
+            
+            // Deletar todos os itens
+            document.getElementById('deleteAllButton').addEventListener('click', deleteAllItems);
         });
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toast.className = `toast align-items-center text-white bg-${type}`;
+            toastMessage.textContent = message;
+            
+            const bsToast = bootstrap.Toast.getOrCreateInstance(toast);
+            bsToast.show();
+        }
 
         function addItem() {
             const itemText = document.getElementById('itemInput').value.trim();
             const category = document.getElementById('categorySelect').value;
 
-            if (itemText === '') return;
+            if (itemText === '') {
+                showToast('Por favor, digite um item para adicionar à lista', 'danger');
+                return;
+            }
 
             const list = document.getElementById(`${category}-list`);
+            
+            // Verifica se a lista está vazia (apenas com mensagem de estado vazio)
+            if (list.querySelector('.empty-state')) {
+                list.innerHTML = '';
+            }
+
+            const itemId = 'item-' + Date.now();
             const newItem = document.createElement('li');
             newItem.className = 'list-group-item d-flex justify-content-between align-items-center';
             
             newItem.innerHTML = `
-                <div>
-                    <input type="checkbox" class="form-check-input me-2">
-                    ${itemText}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="${itemId}">
+                    <label class="form-check-label" for="${itemId}">${itemText}</label>
                 </div>
-                <button class="btn btn-sm btn-outline-danger remove-btn">
+                <button class="btn btn-sm btn-outline-danger remove-btn rounded-circle">
                     <i class="bi bi-trash"></i>
                 </button>
             `;
 
             list.appendChild(newItem);
             document.getElementById('itemInput').value = '';
+            document.getElementById('itemInput').focus();
 
             // Adiciona eventos ao novo item
             newItem.querySelector('.form-check-input').addEventListener('change', toggleCompleted);
             newItem.querySelector('.remove-btn').addEventListener('click', removeItem);
+            
+            // Adiciona animação
+            newItem.style.opacity = '0';
+            newItem.style.transform = 'translateY(10px)';
+            newItem.style.transition = 'all 0.3s ease';
+            
+            setTimeout(() => {
+                newItem.style.opacity = '1';
+                newItem.style.transform = 'translateY(0)';
+            }, 10);
+            
+            // Mostra feedback
+            showToast('Item adicionado com sucesso!');
+            
+            // Salva automaticamente
+            saveListToLocalStorage();
         }
 
         function toggleCompleted(e) {
@@ -320,10 +575,202 @@
             } else {
                 item.classList.remove('completed');
             }
+            
+            // Salva automaticamente a mudança
+            saveListToLocalStorage();
         }
 
         function removeItem(e) {
-            e.target.closest('.list-group-item').remove();
+            const item = e.target.closest('.list-group-item');
+            item.style.transform = 'translateX(100%)';
+            item.style.opacity = '0';
+            
+            setTimeout(() => {
+                item.remove();
+                checkEmptyLists();
+                saveListToLocalStorage();
+                showToast('Item removido da lista');
+            }, 300);
+        }
+
+        function checkEmptyLists() {
+            document.querySelectorAll('.list-group').forEach(list => {
+                if (list.children.length === 0) {
+                    list.innerHTML = `
+                        <div class="empty-state">
+                            <i class="bi bi-cart-x"></i>
+                            <p>Nenhum item adicionado</p>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        function saveList() {
+            saveListToLocalStorage();
+            showToast('Lista salva com sucesso!');
+        }
+
+        function saveListToLocalStorage() {
+            const lists = {};
+            const categories = [
+                'hortifruti', 'mercearia', 'laticinios', 
+                'carnes', 'bebidas', 'limpeza', 
+                'padaria', 'outros'
+            ];
+            
+            categories.forEach(category => {
+                const list = document.getElementById(`${category}-list`);
+                const items = [];
+                
+                list.querySelectorAll('.list-group-item').forEach(item => {
+                    items.push({
+                        text: item.querySelector('.form-check-label').textContent,
+                        completed: item.querySelector('.form-check-input').checked
+                    });
+                });
+                
+                lists[category] = items;
+            });
+            
+            localStorage.setItem('supermarketList', JSON.stringify(lists));
+        }
+
+        function loadSavedList() {
+            const savedList = localStorage.getItem('supermarketList');
+            if (!savedList) {
+                checkEmptyLists();
+                return;
+            }
+            
+            const lists = JSON.parse(savedList);
+            
+            for (const category in lists) {
+                const listElement = document.getElementById(`${category}-list`);
+                listElement.innerHTML = '';
+                
+                lists[category].forEach(item => {
+                    const itemId = 'item-' + Date.now() + Math.random().toString(36).substr(2, 9);
+                    const newItem = document.createElement('li');
+                    newItem.className = `list-group-item d-flex justify-content-between align-items-center ${item.completed ? 'completed' : ''}`;
+                    
+                    newItem.innerHTML = `
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="${itemId}" ${item.completed ? 'checked' : ''}>
+                            <label class="form-check-label" for="${itemId}">${item.text}</label>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger remove-btn rounded-circle">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    `;
+                    
+                    listElement.appendChild(newItem);
+                    
+                    // Adiciona eventos ao novo item
+                    newItem.querySelector('.form-check-input').addEventListener('change', toggleCompleted);
+                    newItem.querySelector('.remove-btn').addEventListener('click', removeItem);
+                });
+                
+                if (lists[category].length === 0) {
+                    listElement.innerHTML = `
+                        <div class="empty-state">
+                            <i class="bi bi-cart-x"></i>
+                            <p>Nenhum item adicionado</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            showToast('Lista carregada com sucesso!');
+        }
+
+        function clearList() {
+            if (confirm('Tem certeza que deseja limpar toda a lista? Esta ação não pode ser desfeita.')) {
+                const categories = [
+                    'hortifruti', 'mercearia', 'laticinios', 
+                    'carnes', 'bebidas', 'limpeza', 
+                    'padaria', 'outros'
+                ];
+                
+                categories.forEach(category => {
+                    const list = document.getElementById(`${category}-list`);
+                    list.innerHTML = `
+                        <div class="empty-state">
+                            <i class="bi bi-cart-x"></i>
+                            <p>Nenhum item adicionado</p>
+                        </div>
+                    `;
+                });
+                
+                localStorage.removeItem('supermarketList');
+                showToast('Lista limpa com sucesso!', 'info');
+            }
+        }
+
+        function printList() {
+            window.print();
+        }
+
+        function completeAllItems() {
+            const allCheckboxes = document.querySelectorAll('.form-check-input:not(:checked)');
+            
+            if (allCheckboxes.length === 0) {
+                showToast('Todos os itens já estão completos!', 'info');
+                return;
+            }
+            
+            allCheckboxes.forEach(checkbox => {
+                checkbox.checked = true;
+                const item = checkbox.closest('.list-group-item');
+                item.classList.add('completed');
+            });
+            
+            saveListToLocalStorage();
+            showToast(`Todos os ${allCheckboxes.length} itens marcados como completos!`);
+        }
+
+        function uncompleteAllItems() {
+            const allCheckboxes = document.querySelectorAll('.form-check-input:checked');
+            
+            if (allCheckboxes.length === 0) {
+                showToast('Nenhum item está completo!', 'info');
+                return;
+            }
+            
+            allCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+                const item = checkbox.closest('.list-group-item');
+                item.classList.remove('completed');
+            });
+            
+            saveListToLocalStorage();
+            showToast(`Todos os ${allCheckboxes.length} itens desmarcados!`);
+        }
+
+        function deleteAllItems() {
+            if (confirm('Tem certeza que deseja deletar TODOS os itens de TODAS as categorias? Esta ação não pode ser desfeita.')) {
+                const categories = [
+                    'hortifruti', 'mercearia', 'laticinios', 
+                    'carnes', 'bebidas', 'limpeza', 
+                    'padaria', 'outros'
+                ];
+                
+                let totalItems = 0;
+                
+                categories.forEach(category => {
+                    const list = document.getElementById(`${category}-list`);
+                    totalItems += list.children.length;
+                    list.innerHTML = `
+                        <div class="empty-state">
+                            <i class="bi bi-cart-x"></i>
+                            <p>Nenhum item adicionado</p>
+                        </div>
+                    `;
+                });
+                
+                localStorage.removeItem('supermarketList');
+                showToast(`${totalItems} itens removidos com sucesso!`, 'info');
+            }
         }
     </script>
 </body>
