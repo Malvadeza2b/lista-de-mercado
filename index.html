@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <!-- Meta tags básicas para configuração do documento -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SuperLista - Lista de Compras Inteligente</title>
-    <!-- Bootstrap 5 CSS -->
+    
+    <!-- Bootstrap 5 CSS via CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
+    
+    <!-- Bootstrap Icons via CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Estilos personalizados -->
     <style>
+        /* Variáveis CSS para cores temáticas */
         :root {
-            --market-primary: #2e8b57;
-            --market-secondary: #ff8c00;
-            --market-light: #f8f9fa;
-            --market-dark: #343a40;
-            --market-bg: #f0fff0;
-            --market-card: #ffffff;
+            --market-primary: #2e8b57;       /* Cor primária - verde */
+            --market-secondary: #ff8c00;     /* Cor secundária - laranja */
+            --market-light: #f8f9fa;         /* Cor clara */
+            --market-dark: #343a40;         /* Cor escura */
+            --market-bg: #f0fff0;           /* Cor de fundo - verde claro */
+            --market-card: #ffffff;         /* Cor dos cards */
         }
         
+        /* Estilos gerais do corpo */
         body {
             background-color: var(--market-bg);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Imagem de fundo com overlay para melhor legibilidade */
             background-image: url('https://images.unsplash.com/photo-1606787366850-de6330128bfc?q=80&w=1470&auto=format&fit=crop');
             background-size: cover;
             background-attachment: fixed;
@@ -30,6 +38,7 @@
             min-height: 100vh;
         }
         
+        /* Container principal */
         .market-container {
             max-width: 1200px;
             background-color: var(--market-card);
@@ -42,6 +51,7 @@
             overflow: hidden;
         }
         
+        /* Efeito de borda superior colorida */
         .market-container::before {
             content: "";
             position: absolute;
@@ -52,6 +62,7 @@
             background: linear-gradient(90deg, var(--market-primary), var(--market-secondary));
         }
         
+        /* Estilos do cabeçalho */
         .market-header {
             text-align: center;
             margin-bottom: 2rem;
@@ -75,6 +86,7 @@
             margin: 0 auto;
         }
         
+        /* Estilo do logo circular */
         .market-logo {
             background-color: var(--market-primary);
             color: white;
@@ -88,6 +100,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
+        /* Estilo dos cards de categoria */
         .category-card {
             background-color: white;
             border-radius: 12px;
@@ -97,11 +110,13 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
+        /* Efeito hover nos cards */
         .category-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
         
+        /* Título das categorias */
         .category-title {
             background: linear-gradient(135deg, rgba(46, 139, 87, 0.1), rgba(255, 140, 0, 0.1));
             border-left: 5px solid var(--market-primary);
@@ -115,6 +130,7 @@
             color: var(--market-dark);
         }
         
+        /* Itens da lista */
         .list-group-item {
             border: none;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -122,15 +138,18 @@
             transition: background-color 0.2s ease;
         }
         
+        /* Último item da lista sem borda inferior */
         .list-group-item:last-child {
             border-bottom: none;
             border-radius: 0 0 12px 12px;
         }
         
+        /* Efeito hover nos itens */
         .list-group-item:hover {
             background-color: rgba(46, 139, 87, 0.05);
         }
         
+        /* Estilo para itens completados */
         .completed {
             text-decoration: line-through;
             color: #6c757d;
@@ -138,11 +157,13 @@
             background-color: rgba(108, 117, 125, 0.05);
         }
         
+        /* Estilo do checkbox quando marcado */
         .form-check-input:checked {
             background-color: var(--market-primary);
             border-color: var(--market-primary);
         }
         
+        /* Grupo de input estilizado */
         .market-input-group {
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             border-radius: 10px;
@@ -150,16 +171,19 @@
             margin-bottom: 1.5rem;
         }
         
+        /* Estilos dos inputs e selects */
         .form-control, .form-select {
             border: none;
             padding: 0.9rem 1.25rem;
             background-color: rgba(255, 255, 255, 0.9);
         }
         
+        /* Efeito de foco */
         .form-control:focus, .form-select:focus {
             box-shadow: 0 0 0 0.25rem rgba(46, 139, 87, 0.25);
         }
         
+        /* Botão primário personalizado */
         .btn-market-primary {
             background-color: var(--market-primary);
             border-color: var(--market-primary);
@@ -169,45 +193,53 @@
             transition: all 0.3s ease;
         }
         
+        /* Efeito hover do botão primário */
         .btn-market-primary:hover {
             background-color: #267849;
             border-color: #267849;
             transform: translateY(-2px);
         }
         
+        /* Botão secundário personalizado */
         .btn-market-secondary {
             background-color: var(--market-secondary);
             border-color: var(--market-secondary);
             color: white;
         }
         
+        /* Efeito hover do botão secundário */
         .btn-market-secondary:hover {
             background-color: #e07d00;
             border-color: #e07d00;
         }
         
+        /* Botão outline personalizado */
         .btn-outline-market {
             border-color: var(--market-primary);
             color: var(--market-primary);
         }
         
+        /* Efeito hover do botão outline */
         .btn-outline-market:hover {
             background-color: var(--market-primary);
             color: white;
         }
         
+        /* Estado vazio das listas */
         .empty-state {
             text-align: center;
             padding: 2rem;
             color: #6c757d;
         }
         
+        /* Ícone do estado vazio */
         .empty-state i {
             font-size: 3rem;
             margin-bottom: 1rem;
             color: rgba(108, 117, 125, 0.3);
         }
         
+        /* Badge das categorias */
         .badge-category {
             background-color: rgba(46, 139, 87, 0.1);
             color: var(--market-primary);
@@ -217,6 +249,7 @@
             font-size: 0.85rem;
         }
         
+        /* Rodapé */
         .market-footer {
             text-align: center;
             margin-top: 2rem;
@@ -224,6 +257,7 @@
             font-size: 0.9rem;
         }
 
+        /* Container de toast (notificações) */
         .toast-container {
             position: fixed;
             top: 20px;
@@ -231,6 +265,7 @@
             z-index: 1100;
         }
 
+        /* Botões de ação */
         .action-buttons {
             display: flex;
             justify-content: center;
@@ -239,7 +274,9 @@
             flex-wrap: wrap;
         }
         
+        /* Media queries para responsividade */
         @media (max-width: 768px) {
+            /* Ajustes para telas menores */
             .market-container {
                 padding: 1.5rem;
                 margin: 1rem;
@@ -265,6 +302,7 @@
                 padding: 0.75rem 1rem;
             }
             
+            /* Ajuste no layout do input group para mobile */
             .market-input-group {
                 flex-direction: column;
             }
@@ -275,12 +313,14 @@
                 width: 100%;
             }
 
+            /* Ajuste na posição do toast para mobile */
             .toast-container {
                 top: 10px;
                 right: 10px;
                 left: 10px;
             }
 
+            /* Ajuste nos botões de ação para mobile */
             .action-buttons .btn {
                 flex: 1 0 auto;
                 min-width: 120px;
@@ -289,6 +329,7 @@
     </style>
 </head>
 <body>
+    <!-- Container principal -->
     <div class="market-container">
         <!-- Cabeçalho -->
         <header class="market-header">
@@ -303,7 +344,10 @@
         <div class="row justify-content-center mb-4">
             <div class="col-lg-8">
                 <div class="market-input-group input-group">
+                    <!-- Input para adicionar novo item -->
                     <input type="text" id="itemInput" class="form-control" placeholder="O que vamos comprar hoje? (ex: Maçãs, Arroz, Leite)" aria-label="Item para comprar">
+                    
+                    <!-- Select para escolher a categoria -->
                     <select id="categorySelect" class="form-select">
                         <option value="hortifruti"><i class="bi bi-apple"></i> Hortifruti</option>
                         <option value="mercearia"><i class="bi bi-basket"></i> Mercearia</option>
@@ -314,6 +358,8 @@
                         <option value="padaria"><i class="bi bi-bread-slice"></i> Padaria</option>
                         <option value="outros"><i class="bi bi-box"></i> Outros</option>
                     </select>
+                    
+                    <!-- Botão para adicionar item -->
                     <button id="addButton" class="btn btn-market-primary">
                         <i class="bi bi-plus-lg"></i> Adicionar
                     </button>
@@ -336,94 +382,96 @@
 
         <!-- Lista de Compras (Organizada por Categorias) -->
         <div class="row">
+            <!-- Coluna esquerda -->
             <div class="col-md-6">
-                <!-- Hortifruti -->
+                <!-- Categoria: Hortifruti -->
                 <div class="category-card">
                     <h3 class="category-title">
                         <i class="bi bi-apple me-2"></i> Hortifruti
                         <span class="badge-category ms-auto">Frutas e Verduras</span>
                     </h3>
                     <ul id="hortifruti-list" class="list-group list-group-flush">
-                        <!-- Itens serão carregados dinamicamente -->
+                        <!-- Itens serão carregados dinamicamente via JavaScript -->
                     </ul>
                 </div>
 
-                <!-- Bebidas -->
+                <!-- Categoria: Bebidas -->
                 <div class="category-card">
                     <h3 class="category-title">
                         <i class="bi bi-cup-straw me-2"></i> Bebidas
                         <span class="badge-category ms-auto">Refrigerantes e Sucos</span>
                     </h3>
                     <ul id="bebidas-list" class="list-group list-group-flush">
-                        <!-- Itens serão carregados dinamicamente -->
+                        <!-- Itens serão carregados dinamicamente via JavaScript -->
                     </ul>
                 </div>
 
-                <!-- Carnes -->
+                <!-- Categoria: Carnes -->
                 <div class="category-card">
                     <h3 class="category-title">
                         <i class="bi bi-egg me-2"></i> Carnes
                         <span class="badge-category ms-auto">Proteínas</span>
                     </h3>
                     <ul id="carnes-list" class="list-group list-group-flush">
-                        <!-- Itens serão carregados dinamicamente -->
+                        <!-- Itens serão carregados dinamicamente via JavaScript -->
                     </ul>
                 </div>
 
-                <!-- Limpeza -->
+                <!-- Categoria: Limpeza -->
                 <div class="category-card">
                     <h3 class="category-title">
                         <i class="bi bi-droplet me-2"></i> Limpeza
                         <span class="badge-category ms-auto">Produtos</span>
                     </h3>
                     <ul id="limpeza-list" class="list-group list-group-flush">
-                        <!-- Itens serão carregados dinamicamente -->
+                        <!-- Itens serão carregados dinamicamente via JavaScript -->
                     </ul>
                 </div>
             </div>
 
+            <!-- Coluna direita -->
             <div class="col-md-6">
-                <!-- Mercearia -->
+                <!-- Categoria: Mercearia -->
                 <div class="category-card">
                     <h3 class="category-title">
                         <i class="bi bi-basket me-2"></i> Mercearia
                         <span class="badge-category ms-auto">Alimentos Básicos</span>
                     </h3>
                     <ul id="mercearia-list" class="list-group list-group-flush">
-                        <!-- Itens serão carregados dinamicamente -->
+                        <!-- Itens serão carregados dinamicamente via JavaScript -->
                     </ul>
                 </div>
 
-                <!-- Laticínios -->
+                <!-- Categoria: Laticínios -->
                 <div class="category-card">
                     <h3 class="category-title">
                         <i class="bi bi-egg-fried me-2"></i> Laticínios
                         <span class="badge-category ms-auto">Leite e Derivados</span>
                     </h3>
                     <ul id="laticinios-list" class="list-group list-group-flush">
-                        <!-- Itens serão carregados dinamicamente -->
+                        <!-- Itens serão carregados dinamicamente via JavaScript -->
                     </ul>
                 </div>
 
-                <!-- Padaria -->
+                <!-- Categoria: Padaria -->
                 <div class="category-card">
                     <h3 class="category-title">
                         <i class="bi bi-bread-slice me-2"></i> Padaria
                         <span class="badge-category ms-auto">Pães e Bolos</span>
                     </h3>
                     <ul id="padaria-list" class="list-group list-group-flush">
-                        <!-- Itens serão carregados dinamicamente -->
+                        <!-- Itens serão carregados dinamicamente via JavaScript -->
                     </ul>
                 </div>
 
-                <!-- Outros -->
+                <!-- Categoria: Outros -->
                 <div class="category-card">
                     <h3 class="category-title">
                         <i class="bi bi-box me-2"></i> Outros
                         <span class="badge-category ms-auto">Diversos</span>
                     </h3>
                     <ul id="outros-list" class="list-group list-group-flush">
-                        <!-- Itens serão carregados dinamicamente -->
+                        <!-- Itens serão carregados dinamicamente via JavaScript -->
                     </ul>
                 </div>
             </div>
@@ -466,6 +514,7 @@
     
     <!-- JavaScript para interatividade -->
     <script>
+        // Quando o DOM estiver completamente carregado
         document.addEventListener('DOMContentLoaded', function() {
             // Inicializa o toast do Bootstrap
             const toastEl = document.getElementById('toast');
@@ -474,54 +523,63 @@
             // Atualiza o ano no rodapé
             document.getElementById('currentYear').textContent = new Date().getFullYear();
             
-            // Carrega a lista salva
+            // Carrega a lista salva no localStorage
             loadSavedList();
             
-            // Adicionar novo item
+            // Adiciona evento de clique no botão de adicionar
             document.getElementById('addButton').addEventListener('click', addItem);
+            
+            // Adiciona evento de tecla Enter no input
             document.getElementById('itemInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') addItem();
             });
 
-            // Salvar lista
+            // Adiciona evento de clique no botão de salvar
             document.getElementById('saveButton').addEventListener('click', saveList);
             
-            // Limpar lista
+            // Adiciona evento de clique no botão de limpar
             document.getElementById('clearButton').addEventListener('click', clearList);
             
-            // Imprimir lista
+            // Adiciona evento de clique no botão de imprimir
             document.getElementById('printButton').addEventListener('click', printList);
             
-            // Completar todos os itens
+            // Adiciona evento de clique no botão de completar todos
             document.getElementById('completeAllButton').addEventListener('click', completeAllItems);
             
-            // Desfazer completar todos os itens
+            // Adiciona evento de clique no botão de desfazer completar todos
             document.getElementById('uncompleteAllButton').addEventListener('click', uncompleteAllItems);
             
-            // Deletar todos os itens
+            // Adiciona evento de clique no botão de deletar todos
             document.getElementById('deleteAllButton').addEventListener('click', deleteAllItems);
         });
 
+        // Função para exibir toast (notificação)
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toastMessage');
             
+            // Define a classe e a mensagem do toast
             toast.className = `toast align-items-center text-white bg-${type}`;
             toastMessage.textContent = message;
             
+            // Exibe o toast
             const bsToast = bootstrap.Toast.getOrCreateInstance(toast);
             bsToast.show();
         }
 
+        // Função para adicionar novo item à lista
         function addItem() {
+            // Obtém o texto do input e a categoria selecionada
             const itemText = document.getElementById('itemInput').value.trim();
             const category = document.getElementById('categorySelect').value;
 
+            // Valida se o item não está vazio
             if (itemText === '') {
                 showToast('Por favor, digite um item para adicionar à lista', 'danger');
                 return;
             }
 
+            // Obtém a lista da categoria selecionada
             const list = document.getElementById(`${category}-list`);
             
             // Verifica se a lista está vazia (apenas com mensagem de estado vazio)
@@ -529,10 +587,14 @@
                 list.innerHTML = '';
             }
 
+            // Cria um ID único para o item
             const itemId = 'item-' + Date.now();
+            
+            // Cria o elemento do novo item
             const newItem = document.createElement('li');
             newItem.className = 'list-group-item d-flex justify-content-between align-items-center';
             
+            // Define o HTML do novo item
             newItem.innerHTML = `
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="${itemId}">
@@ -543,7 +605,10 @@
                 </button>
             `;
 
+            // Adiciona o novo item à lista
             list.appendChild(newItem);
+            
+            // Limpa o input e coloca o foco nele novamente
             document.getElementById('itemInput').value = '';
             document.getElementById('itemInput').focus();
 
@@ -551,48 +616,63 @@
             newItem.querySelector('.form-check-input').addEventListener('change', toggleCompleted);
             newItem.querySelector('.remove-btn').addEventListener('click', removeItem);
             
-            // Adiciona animação
+            // Adiciona animação de entrada
             newItem.style.opacity = '0';
             newItem.style.transform = 'translateY(10px)';
             newItem.style.transition = 'all 0.3s ease';
             
+            // Executa a animação após um pequeno delay
             setTimeout(() => {
                 newItem.style.opacity = '1';
                 newItem.style.transform = 'translateY(0)';
             }, 10);
             
-            // Mostra feedback
+            // Mostra feedback ao usuário
             showToast('Item adicionado com sucesso!');
             
-            // Salva automaticamente
+            // Salva automaticamente a lista no localStorage
             saveListToLocalStorage();
         }
 
+        // Função para marcar/desmarcar item como completo
         function toggleCompleted(e) {
             const item = e.target.closest('.list-group-item');
+            
+            // Adiciona ou remove a classe 'completed' conforme o estado do checkbox
             if (e.target.checked) {
                 item.classList.add('completed');
             } else {
                 item.classList.remove('completed');
             }
             
-            // Salva automaticamente a mudança
+            // Salva automaticamente a mudança no localStorage
             saveListToLocalStorage();
         }
 
+        // Função para remover um item da lista
         function removeItem(e) {
             const item = e.target.closest('.list-group-item');
+            
+            // Adiciona animação de saída
             item.style.transform = 'translateX(100%)';
             item.style.opacity = '0';
             
+            // Remove o item após a animação
             setTimeout(() => {
                 item.remove();
+                
+                // Verifica se alguma lista ficou vazia
                 checkEmptyLists();
+                
+                // Salva a lista atualizada
                 saveListToLocalStorage();
+                
+                // Mostra feedback ao usuário
                 showToast('Item removido da lista');
             }, 300);
         }
 
+        // Função para verificar listas vazias e mostrar mensagem apropriada
         function checkEmptyLists() {
             document.querySelectorAll('.list-group').forEach(list => {
                 if (list.children.length === 0) {
@@ -606,11 +686,13 @@
             });
         }
 
+        // Função para salvar a lista (mostra feedback)
         function saveList() {
             saveListToLocalStorage();
             showToast('Lista salva com sucesso!');
         }
 
+        // Função para salvar a lista no localStorage
         function saveListToLocalStorage() {
             const lists = {};
             const categories = [
@@ -619,6 +701,7 @@
                 'padaria', 'outros'
             ];
             
+            // Para cada categoria, coleta os itens e seus estados
             categories.forEach(category => {
                 const list = document.getElementById(`${category}-list`);
                 const items = [];
@@ -633,11 +716,15 @@
                 lists[category] = items;
             });
             
+            // Salva no localStorage
             localStorage.setItem('supermarketList', JSON.stringify(lists));
         }
 
+        // Função para carregar a lista salva
         function loadSavedList() {
             const savedList = localStorage.getItem('supermarketList');
+            
+            // Se não houver lista salva, apenas verifica listas vazias
             if (!savedList) {
                 checkEmptyLists();
                 return;
@@ -645,10 +732,12 @@
             
             const lists = JSON.parse(savedList);
             
+            // Para cada categoria na lista salva
             for (const category in lists) {
                 const listElement = document.getElementById(`${category}-list`);
                 listElement.innerHTML = '';
                 
+                // Recria cada item da categoria
                 lists[category].forEach(item => {
                     const itemId = 'item-' + Date.now() + Math.random().toString(36).substr(2, 9);
                     const newItem = document.createElement('li');
@@ -666,11 +755,12 @@
                     
                     listElement.appendChild(newItem);
                     
-                    // Adiciona eventos ao novo item
+                    // Adiciona eventos aos itens recriados
                     newItem.querySelector('.form-check-input').addEventListener('change', toggleCompleted);
                     newItem.querySelector('.remove-btn').addEventListener('click', removeItem);
                 });
                 
+                // Se a categoria estiver vazia, mostra mensagem
                 if (lists[category].length === 0) {
                     listElement.innerHTML = `
                         <div class="empty-state">
@@ -681,10 +771,13 @@
                 }
             }
             
+            // Mostra feedback ao usuário
             showToast('Lista carregada com sucesso!');
         }
 
+        // Função para limpar toda a lista
         function clearList() {
+            // Confirmação antes de limpar
             if (confirm('Tem certeza que deseja limpar toda a lista? Esta ação não pode ser desfeita.')) {
                 const categories = [
                     'hortifruti', 'mercearia', 'laticinios', 
@@ -692,6 +785,7 @@
                     'padaria', 'outros'
                 ];
                 
+                // Para cada categoria, limpa os itens e mostra mensagem de estado vazio
                 categories.forEach(category => {
                     const list = document.getElementById(`${category}-list`);
                     list.innerHTML = `
@@ -702,52 +796,68 @@
                     `;
                 });
                 
+                // Remove a lista do localStorage
                 localStorage.removeItem('supermarketList');
+                
+                // Mostra feedback ao usuário
                 showToast('Lista limpa com sucesso!', 'info');
             }
         }
 
+        // Função para imprimir a lista
         function printList() {
             window.print();
         }
 
+        // Função para marcar todos os itens como completos
         function completeAllItems() {
+            // Obtém todos os checkboxes não marcados
             const allCheckboxes = document.querySelectorAll('.form-check-input:not(:checked)');
             
+            // Se não houver itens para marcar, mostra mensagem
             if (allCheckboxes.length === 0) {
                 showToast('Todos os itens já estão completos!', 'info');
                 return;
             }
             
+            // Marca cada checkbox e adiciona a classe 'completed'
             allCheckboxes.forEach(checkbox => {
                 checkbox.checked = true;
                 const item = checkbox.closest('.list-group-item');
                 item.classList.add('completed');
             });
             
+            // Salva a lista e mostra feedback
             saveListToLocalStorage();
             showToast(`Todos os ${allCheckboxes.length} itens marcados como completos!`);
         }
 
+        // Função para desmarcar todos os itens completos
         function uncompleteAllItems() {
+            // Obtém todos os checkboxes marcados
             const allCheckboxes = document.querySelectorAll('.form-check-input:checked');
             
+            // Se não houver itens para desmarcar, mostra mensagem
             if (allCheckboxes.length === 0) {
                 showToast('Nenhum item está completo!', 'info');
                 return;
             }
             
+            // Desmarca cada checkbox e remove a classe 'completed'
             allCheckboxes.forEach(checkbox => {
                 checkbox.checked = false;
                 const item = checkbox.closest('.list-group-item');
                 item.classList.remove('completed');
             });
             
+            // Salva a lista e mostra feedback
             saveListToLocalStorage();
             showToast(`Todos os ${allCheckboxes.length} itens desmarcados!`);
         }
 
+        // Função para deletar todos os itens
         function deleteAllItems() {
+            // Confirmação antes de deletar
             if (confirm('Tem certeza que deseja deletar TODOS os itens de TODAS as categorias? Esta ação não pode ser desfeita.')) {
                 const categories = [
                     'hortifruti', 'mercearia', 'laticinios', 
@@ -757,6 +867,7 @@
                 
                 let totalItems = 0;
                 
+                // Para cada categoria, conta e remove os itens
                 categories.forEach(category => {
                     const list = document.getElementById(`${category}-list`);
                     totalItems += list.children.length;
@@ -768,7 +879,10 @@
                     `;
                 });
                 
+                // Remove a lista do localStorage
                 localStorage.removeItem('supermarketList');
+                
+                // Mostra feedback com o total de itens removidos
                 showToast(`${totalItems} itens removidos com sucesso!`, 'info');
             }
         }
