@@ -338,6 +338,9 @@
                 SuperLista
             </h1>
             <p class="text-muted">Sua lista de compras inteligente para o supermercado</p>
+            <div id="totalCounter" class="badge bg-primary fs-6 mt-2">
+            Total: 0 itens
+            </div>
         </header>
 
         <!-- Formulário para adicionar itens -->
@@ -523,6 +526,9 @@
             // Atualiza o ano no rodapé
             document.getElementById('currentYear').textContent = new Date().getFullYear();
             
+            // Atualiza o contador ao carregar
+            updateTotalCounter();
+
             // Carrega a lista salva no localStorage
             loadSavedList();
             
@@ -632,6 +638,8 @@
             
             // Salva automaticamente a lista no localStorage
             saveListToLocalStorage();
+            // Atualiza o contador
+            updateTotalCounter();
         }
 
         // Função para marcar/desmarcar item como completo
@@ -670,6 +678,15 @@
                 // Mostra feedback ao usuário
                 showToast('Item removido da lista');
             }, 300);
+            setTimeout(() => {
+                item.remove();
+                checkEmptyLists();
+                saveListToLocalStorage();
+                showToast('Item removido da lista');
+                
+                // Atualiza o contador
+                updateTotalCounter();
+            }, 300);
         }
 
         // Função para verificar listas vazias e mostrar mensagem apropriada
@@ -685,6 +702,25 @@
                 }
             });
         }
+        //quando carregar adicione uma entra
+         function updateTotalCounter() {
+            let totalItems = 0;
+    
+            // Percorre todas as listas e conta os itens
+            document.querySelectorAll('.list-group').forEach(list => {
+                // Verifica se não é o empty-state
+                if (!list.querySelector('.empty-state')) {
+                totalItems += list.querySelectorAll('.list-group-item').length;
+            }
+        });
+    
+        // Atualiza o contador
+        document.getElementById('totalCounter').textContent = `Total: ${totalItems} itens`;
+    
+        // Retorna o total para uso em outras funções, se necessário
+    return totalItems;
+        }   
+
 
         // Função para salvar a lista (mostra feedback)
         function saveList() {
@@ -802,6 +838,9 @@
                 // Mostra feedback ao usuário
                 showToast('Lista limpa com sucesso!', 'info');
             }
+
+            // Atualiza o contador
+            updateTotalCounter();
         }
 
         // Função para imprimir a lista
@@ -885,6 +924,9 @@
                 // Mostra feedback com o total de itens removidos
                 showToast(`${totalItems} itens removidos com sucesso!`, 'info');
             }
+
+            // Atualiza o contador
+            updateTotalCounter();
         }
     </script>
 </body>
