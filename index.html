@@ -30,6 +30,12 @@
             --dark-card: #1e1e1e;
             --dark-text: #e0e0e0;
             --dark-border: #333;
+
+            /* Variáveis para modo rosa */
+            --purple-bg: #630066;
+            --purple-card: #5f0692;
+            --pink-text: #ec63d5;
+            --pink-border: #92397c;
         }
         
         body {
@@ -112,6 +118,88 @@
             background-color: var(--market-primary) !important;
         }
         
+        /* Modo rosa - corpo */
+        body.dark-mode {
+            background-color: var(--purple-bg) !important;
+            color: var(--pink-text);
+            background-blend-mode: overlay;
+            background-color: rgb(170, 6, 170);
+        }
+
+        /* Modo rosa - container principal */
+        body.dark-mode .market-container {
+            background-color: var(--purple-card);
+            border-color: var(--pink-border);
+            color: var(--pink-text);
+        }
+
+        /* Modo rosa - cards de categoria */
+        body.dark-mode .category-card {
+            background-color: var(--purple-card);
+            border-color: var(--pink-border);
+        }
+
+        /* Modo rosa - itens da lista */
+        body.dark-mode .list-group-item {
+            background-color: var(--purple-card);
+            color: var(--pink-text);
+            border-bottom-color: var(--pink-border);
+        }
+
+        /* Modo rosa - inputs */
+        body.dark-mode .form-control,
+        body.dark-mode .form-select,
+        body.dark-mode .form-check-label {
+            background-color: #c902c9 !important;
+            color: var(--pink-text) !important;
+            border-color: var(--pink-border);
+        }
+
+        /* Modo rosa - títulos de categoria */
+        body.dark-mode .category-title {
+            background: rgb(119, 34, 153);
+            color: var(--pink-text);
+        }
+
+        /* Modo rosa - estado vazio */
+        body.dark-mode .empty-state {
+            color: #ee8cf7;
+        }
+
+        body.dark-mode .empty-state i {
+            color: rgb(218, 92, 186);
+        }
+
+        /* Modo rosa - itens completados */
+        body.dark-mode .completed {
+            color: #b359a7 !important;
+        }
+
+        /* Modo rosa - texto do cabeçalho */
+        body.dark-mode .market-header p {
+            color: var(--pink-text);
+        }
+
+        /* Modo rosa - badge do contador */
+        body.dark-mode #totalCounter {
+            background-color: var(--market-primary) !important;
+        }
+
+        /* Modo rosa - itens completados */
+        body.dark-mode .completed {
+            color: #9b5285 !important;
+        }
+
+        /* Modo rosa - texto do cabeçalho */
+        body.dark-mode .market-header p {
+            color: var(--pink-text);
+        }
+
+        /* Modo rosa - badge do contador */
+        body.dark-mode #totalCounter {
+            background-color: var(--market-primary) !important;
+        }
+
         /* Container principal */
         .market-container {
             max-width: 1200px;
@@ -467,6 +555,14 @@
                     <i class="bi bi-moon-fill"></i> Modo Escuro
                 </button>
             </div>
+
+            <!-- Botão para alternar modo rosa -->
+            <div class="text-end mb-3">
+                <button id="pinkModeToggle" class="btn btn-outline-secondary">
+                    <i class="bi bi-moon-fill"></i> Modo Rosa
+                </button>
+            </div>
+            
             <h1>
                 <span class="market-logo"><i class="bi bi-cart3"></i></span>
                 SuperLista
@@ -694,6 +790,9 @@
             
             // Adiciona evento de clique no botão de modo escuro
             document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+
+            // Adiciona evento de clique no botão de modo rosa
+            document.getElementById('pinkModeToggle').addEventListener('click', toggleDarkMode);
             
             // Verifica o modo salvo no localStorage
             checkSavedTheme();
@@ -701,6 +800,20 @@
 
          // Função para verificar o tema salvo
          function checkSavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="bi bi-sun-fill"></i> Modo Claro';
+            } else {
+                document.body.classList.remove('dark-mode');
+                darkModeToggle.innerHTML = '<i class="bi bi-moon-fill"></i> Modo Escuro';
+            }
+        }
+
+        // Função para verificar o tema salvo
+        function checkSavedTheme() {
             const savedTheme = localStorage.getItem('theme');
             const darkModeToggle = document.getElementById('darkModeToggle');
             
@@ -757,6 +870,39 @@
             } else {
                 icon.className = 'bi bi-moon-fill';
                 btn.innerHTML = '<i class="bi bi-moon-fill"></i> Modo Escuro';
+                showToast('Modo claro ativado', 'info');
+            }
+        
+        // Função para alternar modo rosa (corrigida)
+        function togglepinkMode() {
+            const body = document.body;
+            const darkModeToggle = document.getElementById('pinkModeToggle');
+            
+            body.classList.toggle('pink-mode');
+            
+            // Atualiza ícone e texto do botão
+            if (body.classList.contains('pink-mode')) {
+                darkModeToggle.innerHTML = '<i class="bi bi-sun-fill"></i> Modo Claro';
+                localStorage.setItem('theme', 'pink');
+                showToast('Modo Rosa ativado', 'info');
+            } else {
+                darkModeToggle.innerHTML = '<i class="bi bi-moon-fill"></i> Modo Rosa';
+                localStorage.setItem('theme', 'light');
+                showToast('Modo claro ativado', 'info');
+            }
+        }
+            document.body.classList.toggle('pink-mode');
+            const button = document.getElementById('pinkModeToggle');
+            const iccon = button.querySelector('i');
+            
+            // Alterna ícone e texto do botão
+            if (document.body.classList.contains('pink-mode')) {
+                iccon.className = 'bi bi-sun-fill';
+                button.innerHTML = '<i class="bi bi-sun-fill"></i> Modo Claro';
+                showToast('Modo pink ativado', 'info');
+            } else {
+                iccon.className = 'bi bi-moon-fill';
+                button.innerHTML = '<i class="bi bi-moon-fill"></i> Modo Rosa';
                 showToast('Modo claro ativado', 'info');
             }
 
