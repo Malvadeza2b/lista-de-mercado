@@ -1,10 +1,12 @@
 <!DOCTYPE html>
+<!-- Declaração do tipo de documento HTML5 -->
 <html lang="pt-BR">
+<!-- Elemento raiz do documento com idioma português do Brasil -->
 <head>
     <!-- Meta tags básicas para configuração do documento -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SuperLista - Lista de Compras Inteligente</title>
+    <meta charset="UTF-8"> <!-- Define a codificação de caracteres como UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Configura viewport para responsividade -->
+    <title>SuperLista - Lista de Compras Inteligente</title> <!-- Título da página exibido na aba do navegador -->
     
     <!-- Bootstrap 5 CSS via CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -16,19 +18,23 @@
     <style>
         /* Variáveis CSS para cores temáticas */
         :root {
-            --market-primary: #2e8b57;       /* Cor primária - verde */
-            --market-secondary: #ff8c00;     /* Cor secundária - laranja */
-            --market-light: #f8f9fa;         /* Cor clara */
-            --market-dark: #343a40;         /* Cor escura */
-            --market-bg: #f0fff0;           /* Cor de fundo - verde claro */
-            --market-card: #ffffff;         /* Cor dos cards */
+            --market-primary: #2e8b57;
+            --market-secondary: #ff8c00;
+            --market-light: #f8f9fa;
+            --market-dark: #343a40;
+            --market-bg: #f0fff0;
+            --market-card: #ffffff;
+            
+            /* Variáveis para modo escuro */
+            --dark-bg: #121212;
+            --dark-card: #1e1e1e;
+            --dark-text: #e0e0e0;
+            --dark-border: #333;
         }
         
-        /* Estilos gerais do corpo */
         body {
             background-color: var(--market-bg);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Imagem de fundo com overlay para melhor legibilidade */
             background-image: url('https://images.unsplash.com/photo-1606787366850-de6330128bfc?q=80&w=1470&auto=format&fit=crop');
             background-size: cover;
             background-attachment: fixed;
@@ -36,6 +42,74 @@
             background-blend-mode: overlay;
             background-color: rgba(240, 255, 240, 0.9);
             min-height: 100vh;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Modo escuro - corpo */
+        body.dark-mode {
+            background-color: var(--dark-bg) !important;
+            color: var(--dark-text);
+            background-blend-mode: overlay;
+            background-color: rgba(18, 18, 18, 0.9);
+        }
+
+        /* Modo escuro - container principal */
+        body.dark-mode .market-container {
+            background-color: var(--dark-card);
+            border-color: var(--dark-border);
+            color: var(--dark-text);
+        }
+
+        /* Modo escuro - cards de categoria */
+        body.dark-mode .category-card {
+            background-color: var(--dark-card);
+            border-color: var(--dark-border);
+        }
+
+        /* Modo escuro - itens da lista */
+        body.dark-mode .list-group-item {
+            background-color: var(--dark-card);
+            color: var(--dark-text);
+            border-bottom-color: var(--dark-border);
+        }
+
+        /* Modo escuro - inputs */
+        body.dark-mode .form-control,
+        body.dark-mode .form-select,
+        body.dark-mode .form-check-label {
+            background-color: #2d2d2d !important;
+            color: var(--dark-text) !important;
+            border-color: var(--dark-border);
+        }
+
+        /* Modo escuro - títulos de categoria */
+        body.dark-mode .category-title {
+            background: rgba(46, 139, 87, 0.2);
+            color: var(--dark-text);
+        }
+
+        /* Modo escuro - estado vazio */
+        body.dark-mode .empty-state {
+            color: #aaa;
+        }
+
+        body.dark-mode .empty-state i {
+            color: rgba(170, 170, 170, 0.3);
+        }
+
+        /* Modo escuro - itens completados */
+        body.dark-mode .completed {
+            color: #999 !important;
+        }
+
+        /* Modo escuro - texto do cabeçalho */
+        body.dark-mode .market-header p {
+            color: var(--dark-text);
+        }
+
+        /* Modo escuro - badge do contador */
+        body.dark-mode #totalCounter {
+            background-color: var(--market-primary) !important;
         }
         
         /* Container principal */
@@ -257,6 +331,60 @@
             font-size: 0.9rem;
         }
 
+        /* Variáveis para modo escuro */
+        :root {
+            --dark-bg: #121212;
+            --dark-card: #1e1e1e;
+            --dark-text: #e0e0e0;
+            --dark-border: #333;
+        }
+
+        /* Classes para modo escuro */
+        .dark-mode {
+            background-color: var(--dark-bg) !important;
+            color: var(--dark-text);
+        }
+
+        .dark-mode .market-container {
+            background-color: var(--dark-card);
+            border-color: var(--dark-border);
+        }
+
+        .dark-mode .category-card {
+            background-color: var(--dark-card);
+            border-color: var(--dark-border);
+        }
+
+        .dark-mode .list-group-item {
+            background-color: var(--dark-card);
+            color: var(--dark-text);
+            border-bottom-color: var(--dark-border);
+        }
+
+        .dark-mode .form-control,
+        .dark-mode .form-select,
+        .dark-mode .form-check-label {
+            background-color: #2d2d2d !important;
+            color: var(--dark-text) !important;
+        }
+
+        .dark-mode .category-title {
+            background: rgba(46, 139, 87, 0.2);
+            color: var(--dark-text);
+        }
+
+        .dark-mode .empty-state {
+            color: #aaa;
+        }
+
+        .dark-mode .empty-state i {
+            color: rgba(170, 170, 170, 0.3);
+        }
+
+        .dark-mode .completed {
+            color: #999 !important;
+        }
+
         /* Container de toast (notificações) */
         .toast-container {
             position: fixed;
@@ -333,13 +461,19 @@
     <div class="market-container">
         <!-- Cabeçalho -->
         <header class="market-header">
+            <!-- Botão para alternar modo escuro -->
+            <div class="text-end mb-3">
+                <button id="darkModeToggle" class="btn btn-outline-secondary">
+                    <i class="bi bi-moon-fill"></i> Modo Escuro
+                </button>
+            </div>
             <h1>
                 <span class="market-logo"><i class="bi bi-cart3"></i></span>
                 SuperLista
             </h1>
             <p class="text-muted">Sua lista de compras inteligente para o supermercado</p>
             <div id="totalCounter" class="badge bg-primary fs-6 mt-2">
-            Total: 0 itens
+                Total: 0 itens
             </div>
         </header>
 
@@ -557,7 +691,27 @@
             
             // Adiciona evento de clique no botão de deletar todos
             document.getElementById('deleteAllButton').addEventListener('click', deleteAllItems);
+            
+            // Adiciona evento de clique no botão de modo escuro
+            document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+            
+            // Verifica o modo salvo no localStorage
+            checkSavedTheme();
         });
+
+         // Função para verificar o tema salvo
+         function checkSavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.innerHTML = '<i class="bi bi-sun-fill"></i> Modo Claro';
+            } else {
+                document.body.classList.remove('dark-mode');
+                darkModeToggle.innerHTML = '<i class="bi bi-moon-fill"></i> Modo Escuro';
+            }
+        }
 
         // Função para exibir toast (notificação)
         function showToast(message, type = 'success') {
@@ -572,6 +726,39 @@
             const bsToast = bootstrap.Toast.getOrCreateInstance(toast);
             bsToast.show();
         }
+
+        // Função para alternar modo escuro (corrigida)
+        function toggleDarkMode() {
+            const body = document.body;
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            
+            body.classList.toggle('dark-mode');
+            
+            // Atualiza ícone e texto do botão
+            if (body.classList.contains('dark-mode')) {
+                darkModeToggle.innerHTML = '<i class="bi bi-sun-fill"></i> Modo Claro';
+                localStorage.setItem('theme', 'dark');
+                showToast('Modo escuro ativado', 'info');
+            } else {
+                darkModeToggle.innerHTML = '<i class="bi bi-moon-fill"></i> Modo Escuro';
+                localStorage.setItem('theme', 'light');
+                showToast('Modo claro ativado', 'info');
+            }
+        }
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('darkModeToggle');
+            const icon = btn.querySelector('i');
+            
+            // Alterna ícone e texto do botão
+            if (document.body.classList.contains('dark-mode')) {
+                icon.className = 'bi bi-sun-fill';
+                btn.innerHTML = '<i class="bi bi-sun-fill"></i> Modo Claro';
+                showToast('Modo escuro ativado', 'info');
+            } else {
+                icon.className = 'bi bi-moon-fill';
+                btn.innerHTML = '<i class="bi bi-moon-fill"></i> Modo Escuro';
+                showToast('Modo claro ativado', 'info');
+            }
 
         // Função para adicionar novo item à lista
         function addItem() {
@@ -677,12 +864,6 @@
                 
                 // Mostra feedback ao usuário
                 showToast('Item removido da lista');
-            }, 300);
-            setTimeout(() => {
-                item.remove();
-                checkEmptyLists();
-                saveListToLocalStorage();
-                showToast('Item removido da lista');
                 
                 // Atualiza o contador
                 updateTotalCounter();
@@ -702,25 +883,22 @@
                 }
             });
         }
-        //quando carregar adicione uma entra
-         function updateTotalCounter() {
+
+        // Função para atualizar o contador de itens
+        function updateTotalCounter() {
             let totalItems = 0;
     
             // Percorre todas as listas e conta os itens
             document.querySelectorAll('.list-group').forEach(list => {
                 // Verifica se não é o empty-state
                 if (!list.querySelector('.empty-state')) {
-                totalItems += list.querySelectorAll('.list-group-item').length;
-            }
-        });
+                    totalItems += list.querySelectorAll('.list-group-item').length;
+                }
+            });
     
-        // Atualiza o contador
-        document.getElementById('totalCounter').textContent = `Total: ${totalItems} itens`;
-    
-        // Retorna o total para uso em outras funções, se necessário
-    return totalItems;
-        }   
-
+            // Atualiza o contador
+            document.getElementById('totalCounter').textContent = `Total: ${totalItems} itens`;
+        }
 
         // Função para salvar a lista (mostra feedback)
         function saveList() {
@@ -837,10 +1015,10 @@
                 
                 // Mostra feedback ao usuário
                 showToast('Lista limpa com sucesso!', 'info');
+                
+                // Atualiza o contador
+                updateTotalCounter();
             }
-
-            // Atualiza o contador
-            updateTotalCounter();
         }
 
         // Função para imprimir a lista
@@ -923,10 +1101,10 @@
                 
                 // Mostra feedback com o total de itens removidos
                 showToast(`${totalItems} itens removidos com sucesso!`, 'info');
+                
+                // Atualiza o contador
+                updateTotalCounter();
             }
-
-            // Atualiza o contador
-            updateTotalCounter();
         }
     </script>
 </body>
